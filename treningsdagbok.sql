@@ -25,17 +25,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Ovelse` (
   `idOvelse` INT NOT NULL,
   `navn` VARCHAR(45) NOT NULL,
   `beskrivelse` VARCHAR(45) NULL,
-  `set` INT NOT NULL,
-  `repetisjoner` INT NOT NULL,
-  `belastning` INT NOT NULL,
-  `treningsOkt_fk` INT NOT NULL,
-  PRIMARY KEY (`idOvelse`, `treningsOkt_fk`),
-  INDEX `fk_Ovelse_TreningsOkt1_idx` (`treningsOkt_fk` ASC),
-  CONSTRAINT `fk_Ovelse_TreningsOkt1`
-    FOREIGN KEY (`treningsOkt_fk`)
-    REFERENCES `mydb`.`TreningsOkt` (`idTreningsOkt`)
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE);
+  PRIMARY KEY (`idOvelse`));
 
 
 -- -----------------------------------------------------
@@ -117,6 +107,24 @@ CREATE TABLE IF NOT EXISTS `mydb`.`DelGruppe` (
     ON UPDATE CASCADE);
 
 -- -----------------------------------------------------
+-- Table `mydb`.`Styrke`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Styrke` (
+  `idstyrke` INT NOT NULL,
+  `navn` VARCHAR(45) NOT NULL,
+  `set` INT NOT NULL,
+  `repetisjoner` INT NOT NULL,
+  `belastning` INT NOT NULL,
+  `ovelse_fk` INT NOT NULL,
+  PRIMARY KEY (`idstyrke`, `ovelse_fk`),
+  INDEX `fk_Styrke_Ovelse1_idx` (`ovelse_fk` ASC),
+  CONSTRAINT `fk_Styrke_Ovelse1`
+    FOREIGN KEY (`ovelse_fk`)
+    REFERENCES `mydb`.`Ovelse` (`idOvelse`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+-- -----------------------------------------------------
 -- Table `mydb`.`Utholdenhet`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Utholdenhet` (
@@ -137,15 +145,16 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Utholdenhet` (
 -- Table `mydb`.`Styrkemaal`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Styrkemaal` (
-  `ovelse_fk` INT NOT NULL,
+  `idMaal` INT NOT NULL,
   `maal_set` INT NOT NULL,
   `maal_repetisjoner` INT NOT NULL,
   `maal_belastning` INT NOT NULL,
-  `idMaal` INT NOT NULL,
-  PRIMARY KEY (`ovelse_fk`, `idMaal`),
-  CONSTRAINT `fk_Styrkemaal_Ovelse1`
-    FOREIGN KEY (`ovelse_fk`)
-    REFERENCES `mydb`.`Ovelse` (`idOvelse`)
+  `styrke_fk` INT NOT NULL,
+  PRIMARY KEY (`idMaal`, `styrke_fk`),
+  INDEX `fk_Styrkemaal_Styrke1_idx` (`styrke_fk` ASC),
+  CONSTRAINT `fk_Styrkemaal_Styrke1`
+    FOREIGN KEY (`styrke_fk`)
+    REFERENCES `mydb`.`Styrke` (`idstyrke`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
@@ -186,3 +195,23 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Gruppe_has_Ovelse` (
     REFERENCES `mydb`.`Ovelse` (`idOvelse`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
+    
+-- -----------------------------------------------------
+-- Table `mydb`.`TreningsOkt_has_Ovelse`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`TreningsOkt_has_Ovelse` (
+  `TreningsOkt_idTreningsOkt` INT NOT NULL,
+  `Ovelse_idOvelse` INT NOT NULL,
+  PRIMARY KEY (`TreningsOkt_idTreningsOkt`, `Ovelse_idOvelse`),
+  INDEX `fk_TreningsOkt_has_Ovelse_Ovelse1_idx` (`Ovelse_idOvelse` ASC),
+  INDEX `fk_TreningsOkt_has_Ovelse_TreningsOkt1_idx` (`TreningsOkt_idTreningsOkt` ASC),
+  CONSTRAINT `fk_TreningsOkt_has_Ovelse_TreningsOkt1`
+    FOREIGN KEY (`TreningsOkt_idTreningsOkt`)
+    REFERENCES `mydb`.`TreningsOkt` (`idTreningsOkt`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_TreningsOkt_has_Ovelse_Ovelse1`
+    FOREIGN KEY (`Ovelse_idOvelse`)
+    REFERENCES `mydb`.`Ovelse` (`idOvelse`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
