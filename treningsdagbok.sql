@@ -111,7 +111,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`DelGruppe` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Styrke` (
   `idstyrke` INT NOT NULL AUTO_INCREMENT UNIQUE,
-  `navn` VARCHAR(45) NOT NULL,
   `set` INT NOT NULL,
   `repetisjoner` INT NOT NULL,
   `belastning` INT NOT NULL,
