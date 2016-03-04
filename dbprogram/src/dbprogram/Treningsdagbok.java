@@ -40,6 +40,8 @@ public class Treningsdagbok {
 		String navn = br.readLine();
         System.out.println("Beskrivelse: ");
         String beskrivelse = br.readLine();
+        System.out.println("Styrke eller utholdenhet?");
+        String utholdenhet = br.readLine();
         System.out.println("ute eller inne? ");
         String type = br.readLine();
         
