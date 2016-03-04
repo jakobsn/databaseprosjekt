@@ -40,23 +40,67 @@ public class Treningsdagbok {
 		String navn = br.readLine();
         System.out.println("Beskrivelse: ");
         String beskrivelse = br.readLine();
-        System.out.println("ute eller inne? ");
+        System.out.println("Styrke eller utholdenhet?");
         String type = br.readLine();
         
-        String query = "INSERT INTO OVELSE (navn, beskrivelse)" + 
+        int setInt = 0;
+        int repetisjonerInt = 0;
+        int belastningInt = 0;
+        if(type.equals("styrke")){
+        	System.out.println("Set: ");
+        	String set = br.readLine();
+        	setInt = Integer.parseInt(set);
+        	System.out.println("Repetisjoner: ");
+        	String repetisjoner = br.readLine();
+        	repetisjonerInt = Integer.parseInt(repetisjoner);
+        	System.out.println("Belastning: ");
+        	String belastning = br.readLine();
+        	belastningInt = Integer.parseInt(belastning);
+        }
+        
+        else if(type.equals("utholdenhet")){
+        	
+        }
+        
+        System.out.println("ute eller inne? ");
+        String miljo = br.readLine();
+        
+        String ovelseQuery = "INSERT INTO OVELSE (navn, beskrivelse)" + 
         "values (?, ?)";
+        
+        String styrkeQuery = "INSERT INTO STYRKE (set, repetisjoner, belastning, ovelse_fk)" + 
+        "values (?, ?, ?, ?)";
        
         Connection connection = null;
-        PreparedStatement statement = null; 
+        PreparedStatement ovelseStatement = null; 
+        PreparedStatement styrkeStatement = null;
         try{
         	connection=JDBCMySQLConnection.getConnection();
-        	statement=connection.prepareStatement(query);
-        	statement.setString(1, navn);
-        	statement.setString(2, beskrivelse);
         	
-        	statement.execute();
+        	ovelseStatement=connection.prepareStatement(ovelseQuery);
+        	ovelseStatement.setString(1, navn);
+        	ovelseStatement.setString(2, beskrivelse);
+        	
+        	ovelseStatement.execute();
         	connection.close();
         	
+        }catch (SQLException e){
+        	e.printStackTrace();
+        }
+        
+        String getOvelse_fk = "SELECT idOvelse FROM OVELSE WHERE navn="+navn;
+        //finn fremmednøkkelen til øvelsen
+        try{
+        	int ovelse_fk = 
+        	if(type.equals("styrke")){
+        		styrkeStatement = connection.prepareStatement(styrkeQuery);
+        		styrkeStatement.setInt(1, setInt);
+        		styrkeStatement.setInt(2, repetisjonerInt);
+        		styrkeStatement.setInt(3, belastningInt);
+        	}
+        	else if(type.equals("utholdenhet")){
+        		
+        	}
         }
         catch (SQLException e){
         	e.printStackTrace();
