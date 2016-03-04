@@ -16,11 +16,12 @@ public class Treningsdagbok {
 
 	List<String> commands = new ArrayList<String>();
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		Treningsdagbok dagbok = new Treningsdagbok();
 		dagbok.createCommands();
-        BufferedReader command = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Velkommen til din digitale treningsdagbok. Skriv \"/hjelp\" for å se kommandoer");
+        BufferedReader command = new BufferedReader(new InputStreamReader(System.in));
+        command.readLine();
         if(command.equals("/hjelp")){
         	dagbok.hjelp();
         }
@@ -29,15 +30,19 @@ public class Treningsdagbok {
         }
 	}
 	
-	public void addOvelse(){
+	public void addOvelse() throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
 		System.out.println("Navn på øvelse: ");
-        BufferedReader navn = new BufferedReader(new InputStreamReader(System.in));
+		String navn = br.readLine();
         System.out.println("Beskrivelse: ");
-        BufferedReader beskrivelse = new BufferedReader(new InputStreamReader(System.in));
+        String beskrivelse = br.readLine();
         System.out.println("utendørs eller innendørs? ");
-        BufferedReader type = new BufferedReader(new InputStreamReader(System.in));
+        String type = br.readLine();
         
-        String query = "INSERT INTO OVELSE (navn, beskrivelse, type)";
+        String query = "INSERT INTO OVELSE (navn, beskrivelse, type)" + 
+        "values (?, ?, ?)";
+       
         Connection connection = null;
         Statement statement = null; 
         try{

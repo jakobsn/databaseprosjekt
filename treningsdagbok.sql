@@ -8,7 +8,7 @@ USE `mydb` ;
 -- Table `mydb`.`TreningsOkt`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`TreningsOkt` (
-  `idTreningsOkt` INT NOT NULL,
+  `idTreningsOkt` INT NOT NULL AUTO_INCREMENT UNIQUE,
   `dato` DATE NOT NULL,
   `tidspunkt` TIME NOT NULL,
   `varighet(min)` INT NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`TreningsOkt` (
 -- Table `mydb`.`Ovelse`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Ovelse` (
-  `idOvelse` INT NOT NULL,
+  `idOvelse` INT NOT NULL AUTO_INCREMENT UNIQUE,
   `navn` VARCHAR(45) NOT NULL,
   `beskrivelse` VARCHAR(45) NULL,
   PRIMARY KEY (`idOvelse`));
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Ovelse` (
 -- Table `mydb`.`Utendors`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Utendors` (
-  `idUtendors` INT NOT NULL,
+  `idUtendors` INT NOT NULL AUTO_INCREMENT UNIQUE,
   `vaertype` VARCHAR(45) NOT NULL,
   `temperatur` INT NOT NULL,
   `ovelse_fk` INT NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Utendors` (
 -- Table `mydb`.`Innendors`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Innendors` (
-  `idInnendors` INT NOT NULL,
+  `idInnendors` INT NOT NULL AUTO_INCREMENT UNIQUE,
   `luftKondisjon` VARCHAR(45) NOT NULL,
   `tilskuere` INT NOT NULL,
   `ovelse_fk` INT NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Innendors` (
 -- Table `mydb`.`KanErstatte`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`KanErstatte` (
-  `Ovelse_idOvelse` INT NOT NULL,
+  `Ovelse_idOvelse` INT NOT NULL AUTO_INCREMENT UNIQUE,
   `Ovelse_idOvelse1` INT NOT NULL,
   PRIMARY KEY (`Ovelse_idOvelse`, `Ovelse_idOvelse1`),
   INDEX `fk_Ovelse_has_Ovelse_Ovelse1_idx` (`Ovelse_idOvelse1` ASC),
@@ -88,14 +88,14 @@ CREATE TABLE IF NOT EXISTS `mydb`.`KanErstatte` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Gruppe` (
   `navn` VARCHAR(45) NOT NULL,
-  `idGruppe` INT NOT NULL,
+  `idGruppe` INT NOT NULL AUTO_INCREMENT UNIQUE,
   PRIMARY KEY (`idGruppe`));
 
 -- -----------------------------------------------------
 -- Table `mydb`.`DelGruppe`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`DelGruppe` (
-  `idDelGruppe` INT NOT NULL,
+  `idDelGruppe` INT NOT NULL AUTO_INCREMENT UNIQUE,
   `navn` VARCHAR(45) NOT NULL,
   `idGruppe_fk` INT NOT NULL,
   PRIMARY KEY (`idDelGruppe`, `idGruppe_fk`),
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`DelGruppe` (
 -- Table `mydb`.`Styrke`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Styrke` (
-  `idstyrke` INT NOT NULL,
+  `idstyrke` INT NOT NULL AUTO_INCREMENT UNIQUE,
   `navn` VARCHAR(45) NOT NULL,
   `set` INT NOT NULL,
   `repetisjoner` INT NOT NULL,
@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Styrke` (
 -- Table `mydb`.`Utholdenhet`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Utholdenhet` (
-  `idUtholdenhet` INT NOT NULL,
+  `idUtholdenhet` INT NOT NULL AUTO_INCREMENT UNIQUE,
   `lengde(km)` INT NOT NULL,
   `varighet(min)` INT NOT NULL,
   `ovelse_fk` INT NOT NULL,
@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Utholdenhet` (
 -- Table `mydb`.`Styrkemaal`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Styrkemaal` (
-  `idMaal` INT NOT NULL,
+  `idMaal` INT NOT NULL AUTO_INCREMENT UNIQUE,
   `maal_set` INT NOT NULL,
   `maal_repetisjoner` INT NOT NULL,
   `maal_belastning` INT NOT NULL,
@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Styrkemaal` (
 -- Table `mydb`.`Utholdenhetmaal`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Utholdenhetmaal` (
-  `idUtholdenhetmaal` INT NOT NULL,
+  `idUtholdenhetmaal` INT NOT NULL AUTO_INCREMENT UNIQUE,
   `maal_lengde` INT NOT NULL,
   `maal_varighet` INT NOT NULL,
   `utholdenhet_fk` INT NOT NULL,
@@ -180,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Utholdenhetmaal` (
 -- Table `mydb`.`Gruppe_has_Ovelse`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Gruppe_has_Ovelse` (
-  `idDelGruppe` INT NOT NULL,
+  `idDelGruppe` INT NOT NULL AUTO_INCREMENT UNIQUE,
   `idOvelse` INT NOT NULL,
   PRIMARY KEY (`idDelGruppe`, `idOvelse`),
   INDEX `fk_Gruppe_has_Ovelse_Ovelse1_idx` (`idOvelse` ASC),
@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Gruppe_has_Ovelse` (
 -- Table `mydb`.`TreningsOkt_has_Ovelse`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`TreningsOkt_has_Ovelse` (
-  `TreningsOkt_idTreningsOkt` INT NOT NULL,
+  `TreningsOkt_idTreningsOkt` INT NOT NULL AUTO_INCREMENT UNIQUE,
   `Ovelse_idOvelse` INT NOT NULL,
   PRIMARY KEY (`TreningsOkt_idTreningsOkt`, `Ovelse_idOvelse`),
   INDEX `fk_TreningsOkt_has_Ovelse_Ovelse1_idx` (`Ovelse_idOvelse` ASC),
