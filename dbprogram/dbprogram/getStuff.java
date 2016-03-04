@@ -6,7 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import dbprogram.Tables.Ovelse;
+import dbprogram.Tables.Styrkemaal;
 import dbprogram.Tables.TreningsOkt;
+import dbprogram.Tables.Utholdenhetsmaal;
 
 public class getStuff {
 
@@ -77,11 +79,11 @@ public class getStuff {
 
 	}
 
-	public static Ovelse styrkeMaal(int styrkemaal_id) {
+	public static Styrkemaal styrkeMaal(int styrkemaal_id) {
 		ResultSet rs = null;
 		Connection connection = null;
 		Statement statement = null;
-		Ovelse ovelse = null;
+		Styrkemaal styrkemaal = null;
 		String query = "SELECT * FROM Styrkemaal WHERE idMaal=" + styrkemaal_id;
 		try {
 			connection = JDBCMySQLConnection.getConnection();
@@ -89,10 +91,12 @@ public class getStuff {
 			rs = statement.executeQuery(query);
 
 			if (rs.next()) {
-				ovelse = new Ovelse();
-				ovelse.setIdOvelse(rs.getInt("idMaal"));
-				ovelse.setNavn(rs.getString("navn"));
-				ovelse.setBeskrivelse(rs.getString("beskrivelse"));
+				styrkemaal = new Styrkemaal();
+				styrkemaal.setIdMaal(rs.getInt("idMaal"));
+				styrkemaal.setMaal_sett(rs.getInt("maal_set"));
+				styrkemaal.setMaal_repetisjoner(rs.getInt("maal_repetisjoner"));
+				styrkemaal.setMaal_belastning(rs.getInt("maal_belastning"));
+				styrkemaal.setStyrke_fk(rs.getInt("styrke_fk"));
 
 			}
 		} catch (SQLException e) {
@@ -106,7 +110,42 @@ public class getStuff {
 				}
 			}
 		}
-		return ovelse;
+		return styrkemaal;
+
+	}
+	
+	public static Utholdenhetsmaal utholdenhetsMaal(int utholdnehetsmaal_id) {
+		ResultSet rs = null;
+		Connection connection = null;
+		Statement statement = null;
+		Utholdenhetsmaal utholdnehetsmaal = null;
+		String query = "SELECT * FROM Utholdnehetsmaal WHERE idUtholdnehetsmaal=" + utholdnehetsmaal_id;
+		try {
+			connection = JDBCMySQLConnection.getConnection();
+			statement = connection.createStatement();
+			rs = statement.executeQuery(query);
+
+			if (rs.next()) {
+				utholdnehetsmaal = new Utholdenhetsmaal();
+				utholdnehetsmaal.setIdUtholdenhetmaal(rs.getInt("idMaal"));
+				utholdnehetsmaal.setMaal_lengde(rs.getInt("maal_lengde"));
+				utholdnehetsmaal.setMaal_varighet(rs.getInt("maal_varighet"));
+				utholdnehetsmaal.setUtholdenhet_fk(rs.getInt("utholdenhet_fk"));
+				
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return utholdnehetsmaal;
 
 	}
 

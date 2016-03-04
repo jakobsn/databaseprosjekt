@@ -5,6 +5,7 @@ public class Ovelse {
 	private int idOvelse;
 	private String navn;
 	private String beskrivelse;
+	
 	public int getIdOvelse() {
 		return idOvelse;
 	}

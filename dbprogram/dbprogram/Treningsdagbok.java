@@ -16,7 +16,7 @@ public class Treningsdagbok {
 	public static void main(String[] args) throws IOException {
 		Treningsdagbok dagbok = new Treningsdagbok();
 		dagbok.createCommands();
-        System.out.println("Velkommen til din digitale treningsdagbok. Skriv \"/hjelp\" for å se kommandoer");
+        System.out.println("Velkommen til din digitale treningsdagbok. Skriv \"/hjelp\" for ï¿½ se kommandoer");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         while(true){
         	System.out.println("Skriv inn kommando: ");
@@ -36,7 +36,7 @@ public class Treningsdagbok {
 	public void addOvelse() throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-		System.out.println("Navn på øvelse: ");
+		System.out.println("Navn pï¿½ ï¿½velse: ");
 		String navn = br.readLine();
         System.out.println("Beskrivelse: ");
         String beskrivelse = br.readLine();
