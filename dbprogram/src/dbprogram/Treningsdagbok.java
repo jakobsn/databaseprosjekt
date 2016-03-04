@@ -1,49 +1,61 @@
 package dbprogram;
 
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
-import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Treningsdagbok {
 
 	List<String> commands = new ArrayList<String>();
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		Treningsdagbok dagbok = new Treningsdagbok();
 		dagbok.createCommands();
-        BufferedReader command = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Velkommen til din digitale treningsdagbok. Skriv \"/hjelp\" for å se kommandoer");
-        if(command.equals("/hjelp")){
-        	dagbok.hjelp();
-        }
-        else if(command.equals("/nyOvelse")){
-        	dagbok.addOvelse();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        while(true){
+        	System.out.println("Skriv inn kommando: ");
+        	String command = br.readLine();
+        	if(command.equals("/hjelp")){
+        		dagbok.hjelp();
+        	}
+        	else if(command.equals("/nyOvelse")){
+        		dagbok.addOvelse();
+        	}
+        	else{
+        		System.out.println("Det er ikke en gyldig kommando");
+        	}
         }
 	}
 	
-	public void addOvelse(){
+	public void addOvelse() throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
 		System.out.println("Navn på øvelse: ");
-        BufferedReader navn = new BufferedReader(new InputStreamReader(System.in));
+		String navn = br.readLine();
         System.out.println("Beskrivelse: ");
-        BufferedReader beskrivelse = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("utendørs eller innendørs? ");
-        BufferedReader type = new BufferedReader(new InputStreamReader(System.in));
+        String beskrivelse = br.readLine();
+        System.out.println("ute eller inne? ");
+        String type = br.readLine();
         
-        String query = "INSERT INTO OVELSE (navn, beskrivelse, type)";
+        String query = "INSERT INTO OVELSE (navn, beskrivelse)" + 
+        "values (?, ?)";
+       
         Connection connection = null;
-        Statement statement = null; 
+        PreparedStatement statement = null; 
         try{
         	connection=JDBCMySQLConnection.getConnection();
         	statement=connection.prepareStatement(query);
-        
+        	statement.setString(1, navn);
+        	statement.setString(2, beskrivelse);
+        	
+        	statement.execute();
+        	connection.close();
         	
         }
         catch (SQLException e){
