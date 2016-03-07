@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,81 +30,101 @@ public class Treningsdagbok {
         		dagbok.addOvelse();
         	}
         	else{
-        		System.out.println("Det er ikke en gyldig kommando");
+        		System.out.println("Det er ikke en gyldig kommando, skriv \"/hjelp\" for å få opp kommandoer.");
         	}
         }
 	}
 	
 	public void addOvelse() throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
 		System.out.println("Navn p� �velse: ");
-		String navn = br.readLine();
+		String navn = reader.readLine();
         System.out.println("Beskrivelse: ");
-        String beskrivelse = br.readLine();
+        String beskrivelse = reader.readLine();
         System.out.println("Styrke eller utholdenhet?");
-        String type = br.readLine();
-        
-        int setInt = 0;
-        int repetisjonerInt = 0;
-        int belastningInt = 0;
-        if(type.equals("styrke")){
-        	System.out.println("Set: ");
-        	String set = br.readLine();
-        	setInt = Integer.parseInt(set);
-        	System.out.println("Repetisjoner: ");
-        	String repetisjoner = br.readLine();
-        	repetisjonerInt = Integer.parseInt(repetisjoner);
-        	System.out.println("Belastning: ");
-        	String belastning = br.readLine();
-        	belastningInt = Integer.parseInt(belastning);
-        }
-        
-        else if(type.equals("utholdenhet")){
-        	
-        }
-        
-        System.out.println("ute eller inne? ");
-        String miljo = br.readLine();
+        String type = reader.readLine();
+        System.out.println("Ute eller inne?");
+        String miljo = reader.readLine();
         
         String ovelseQuery = "INSERT INTO OVELSE (navn, beskrivelse)" + 
         "values (?, ?)";
-        
-        String styrkeQuery = "INSERT INTO STYRKE (set, repetisjoner, belastning, ovelse_fk)" + 
-        "values (?, ?, ?, ?)";
        
-        Connection connection = null;
-        PreparedStatement ovelseStatement = null; 
-        PreparedStatement styrkeStatement = null;
+    	Connection connection=JDBCMySQLConnection.getConnection();
+    	PreparedStatement ovelseStatement;
+        int ovelse_fk = (Integer) null;
+
+        //Legger inn øvelse i database
         try{
-        	connection=JDBCMySQLConnection.getConnection();
         	
         	ovelseStatement=connection.prepareStatement(ovelseQuery);
         	ovelseStatement.setString(1, navn);
         	ovelseStatement.setString(2, beskrivelse);
         	
         	ovelseStatement.execute();
+        	
+        	ResultSet rsOvelse_fk = ovelseStatement.getGeneratedKeys();
+        	ovelse_fk = rsOvelse_fk.getInt(0);
+        	
         	connection.close();
         	
         }catch (SQLException e){
         	e.printStackTrace();
         }
-        
-        String getOvelse_fk = "SELECT idOvelse FROM OVELSE WHERE navn="+navn;
-        //finn fremmednøkkelen til øvelsen
-        try{
-        	int ovelse_fk = 
-        	if(type.equals("styrke")){
-        		styrkeStatement = connection.prepareStatement(styrkeQuery);
-        		styrkeStatement.setInt(1, setInt);
-        		styrkeStatement.setInt(2, repetisjonerInt);
-        		styrkeStatement.setInt(3, belastningInt);
-        	}
-        	else if(type.equals("utholdenhet")){
-        		
-        	}
+        if(type.equals("styrke")){
+        	this.addStyrke(ovelse_fk);
         }
-        catch (SQLException e){
+        else if(type.equals("utholdenhet")){
+        	this.addUtholdenhet(ovelse_fk);
+        }
+        if(miljo.equals("ute")){
+        	this.addUte(ovelse_fk);
+        }
+        else if(miljo.equals("inne")){
+        	this.addInne(ovelse_fk);
+        }
+	}
+	
+	private void addInne(int ovelse_fk) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void addUte(int ovelse_fk) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void addUtholdenhet(int ovelse_fk) {
+		
+	}
+
+	public void addStyrke(int ovelse_fk) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int setInt = 0;
+        int repetisjonerInt = 0;
+        int belastningInt = 0;
+
+        System.out.println("Set: ");
+        String set = br.readLine();
+        setInt = Integer.parseInt(set);
+        System.out.println("Repetisjoner: ");
+        String repetisjoner = br.readLine();
+        repetisjonerInt = Integer.parseInt(repetisjoner);
+        System.out.println("Belastning: ");
+        String belastning = br.readLine();
+        belastningInt = Integer.parseInt(belastning);
+        
+        String styrkeQuery = "INSERT INTO STYRKE (set, repetisjoner, belastning, ovelse_fk)" + 
+                "values (?, ?, ?, ?)";
+    	Connection connection=JDBCMySQLConnection.getConnection();
+    	PreparedStatement styrkeStatement;
+        try{
+       		styrkeStatement = connection.prepareStatement(styrkeQuery);
+       		styrkeStatement.setInt(1, setInt);
+       		styrkeStatement.setInt(2, repetisjonerInt);
+       		styrkeStatement.setInt(3, belastningInt);
+       	}catch (SQLException e){
         	e.printStackTrace();
         }finally {
             if (connection != null) {
@@ -123,11 +145,11 @@ public class Treningsdagbok {
 
 	public void hjelp() {
 		// TODO Auto-generated method stub
+		System.out.println("Mulige kommandoer:");
+		System.out.println("==================");
 		for(String kommando : this.commands){
 		System.out.println(kommando);
 		}
+		System.out.println("==================");
 	}
-	
-	
-	
 }
