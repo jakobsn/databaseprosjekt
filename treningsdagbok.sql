@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Styrkemaal` (
 -- Table `mydb`.`Utholdenhetmaal`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Utholdenhetmaal` (
-  `idUtholdenhetmaal` INT NOT NULL AUTO_INCREMENT UNIQUE,
+  `idMaal` INT NOT NULL AUTO_INCREMENT UNIQUE,
   `maal_lengde` INT NOT NULL,
   `maal_varighet` INT NOT NULL,
   `utholdenhet_fk` INT NOT NULL,
