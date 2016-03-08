@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Ovelse` (
   `idOvelse` INT NOT NULL AUTO_INCREMENT UNIQUE,
   `navn` VARCHAR(45) NOT NULL,
   `beskrivelse` VARCHAR(45) NULL,
+  `type` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idOvelse`));
 
 
@@ -213,3 +214,4 @@ CREATE TABLE IF NOT EXISTS `mydb`.`TreningsOkt_has_Ovelse` (
     REFERENCES `mydb`.`Ovelse` (`idOvelse`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+
