@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`TreningsOkt` (
   `idTreningsOkt` INT NOT NULL AUTO_INCREMENT UNIQUE,
   `dato` DATE NOT NULL,
   `tidspunkt` TIME NOT NULL,
-  `varighet(min)` INT NOT NULL,
+  `varighet` INT NOT NULL,
   `kommentar` VARCHAR(45) NULL,
   `form` INT NULL,
   `prestasjon` INT NULL,
@@ -51,7 +51,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Utendors` (
 CREATE TABLE IF NOT EXISTS `mydb`.`Innendors` (
   `idInnendors` INT NOT NULL AUTO_INCREMENT UNIQUE,
   `luftKondisjon` VARCHAR(45) NOT NULL,
-  `tilskuere` INT NOT NULL,
   `ovelse_fk` INT NOT NULL,
   `paagang` INT NOT NULL,
   PRIMARY KEY (`idInnendors`, `ovelse_fk`),
@@ -128,8 +127,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Styrke` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Utholdenhet` (
   `idUtholdenhet` INT NOT NULL AUTO_INCREMENT UNIQUE,
-  `lengde(km)` INT NOT NULL,
-  `varighet(min)` INT NOT NULL,
+  `lengde` INT NOT NULL,
+  `varighet` INT NOT NULL,
   `ovelse_fk` INT NOT NULL,
   PRIMARY KEY (`idUtholdenhet`, `ovelse_fk`),
   INDEX `fk_Utholdenhet_Ovelse1_idx` (`ovelse_fk` ASC),
