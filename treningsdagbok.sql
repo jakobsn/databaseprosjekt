@@ -149,7 +149,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Styrkemaal` (
   `maal_repetisjoner` INT NOT NULL,
   `maal_belastning` INT NOT NULL,
   `styrke_fk` INT NOT NULL,
-  PRIMARY KEY (`idMaal`, `styrke_fk`),
+  `dato` DATE NOT NULL,
+  PRIMARY KEY (`idMaal`),
   INDEX `fk_Styrkemaal_Styrke1_idx` (`styrke_fk` ASC),
   CONSTRAINT `fk_Styrkemaal_Styrke1`
     FOREIGN KEY (`styrke_fk`)
@@ -166,7 +167,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Utholdenhetmaal` (
   `maal_lengde` INT NOT NULL,
   `maal_varighet` INT NOT NULL,
   `utholdenhet_fk` INT NOT NULL,
-  PRIMARY KEY (`idUtholdenhetmaal`, `utholdenhet_fk`),
+  `dato` DATE NOT NULL,
+  PRIMARY KEY (`idMaal`),
   INDEX `fk_Utholdenhetmaal_Utholdenhet1_idx` (`utholdenhet_fk` ASC),
   CONSTRAINT `fk_Utholdenhetmaal_Utholdenhet1`
     FOREIGN KEY (`utholdenhet_fk`)
