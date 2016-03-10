@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`DelGruppe` (
   CONSTRAINT `fk_DelGruppe_Gruppe1`
     FOREIGN KEY (`idGruppe_fk`)
     REFERENCES `mydb`.`Gruppe` (`idGruppe`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE);
 
 -- -----------------------------------------------------
@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Utholdenhetmaal` (
 -- Table `mydb`.`Gruppe_has_Ovelse`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Gruppe_has_Ovelse` (
-  `idDelGruppe` INT NOT NULL AUTO_INCREMENT UNIQUE,
+  `idDelGruppe` INT NOT NULL,
   `idOvelse` INT NOT NULL,
   PRIMARY KEY (`idDelGruppe`, `idOvelse`),
   INDEX `fk_Gruppe_has_Ovelse_Ovelse1_idx` (`idOvelse` ASC),
@@ -201,7 +201,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Gruppe_has_Ovelse` (
 -- Table `mydb`.`TreningsOkt_has_Ovelse`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`TreningsOkt_has_Ovelse` (
-  `TreningsOkt_idTreningsOkt` INT NOT NULL AUTO_INCREMENT UNIQUE,
+  `TreningsOkt_idTreningsOkt` INT NOT NULL,
   `Ovelse_idOvelse` INT NOT NULL,
   PRIMARY KEY (`TreningsOkt_idTreningsOkt`, `Ovelse_idOvelse`),
   INDEX `fk_TreningsOkt_has_Ovelse_Ovelse1_idx` (`Ovelse_idOvelse` ASC),
